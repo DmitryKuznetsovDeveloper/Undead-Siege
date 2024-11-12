@@ -6,12 +6,17 @@ using VContainer.Unity;
 
 namespace Game.Input
 {
-    public sealed class MoveInput : IInitializable,ITickable,IDisposable
+    public interface IMoveInput
+    {
+        public float2 MoveDirection { get; }
+        public bool IsRunButtonPressed { get; }
+    }
+    public sealed class MoveInput : IMoveInput, IInitializable, ITickable, IDisposable
     {
         private InputAction _moveAction;
         private InputAction _runAction;
         public float2 MoveDirection { get; private set; }
-        public bool IsRunButtonPressed  { get; private set; }
+        public bool IsRunButtonPressed { get; private set; }
 
         void IInitializable.Initialize()
         {
@@ -36,13 +41,13 @@ namespace Game.Input
             _moveAction.Enable();
 
             _runAction = new InputAction("run");
-            _runAction.AddBinding("<Keyboard>/leftShift");        
-            _runAction.AddBinding("<Gamepad>/leftStickPress"); 
+            _runAction.AddBinding("<Keyboard>/leftShift");
+            _runAction.AddBinding("<Gamepad>/leftStickPress");
             _runAction.Enable();
-            
+
             _runAction.Enable();
         }
-        
+
         void ITickable.Tick() => IsRunButtonPressed = _runAction.IsPressed();
 
         void IDisposable.Dispose() => _moveAction?.Dispose();

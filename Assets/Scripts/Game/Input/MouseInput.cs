@@ -6,7 +6,14 @@ using VContainer.Unity;
 
 namespace Game.Input
 {
-    public sealed class MouseInput : IInitializable, ITickable, IDisposable
+
+    public interface IMouseInput
+    {
+        public float2 MouseDelta { get; }
+        public float2 MouseScroll { get; }
+        public bool IsTriangleButtonPressed { get; }
+    }
+    public sealed class MouseInput : IMouseInput, IInitializable, ITickable, IDisposable
     {
         private InputAction _lookAction;
         private InputAction _mouseScrollAction;
@@ -33,7 +40,7 @@ namespace Game.Input
             _mouseScrollAction.performed += context => MouseScroll = context.ReadValue<Vector2>();
             _mouseScrollAction.canceled += context => MouseScroll = context.ReadValue<Vector2>();
             _mouseScrollAction.Enable();
-            
+
             _triangleButtonAction = new InputAction("triangleButton", binding: "<Gamepad>/buttonNorth");
             _triangleButtonAction.Enable();
         }

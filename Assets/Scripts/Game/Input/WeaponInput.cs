@@ -3,7 +3,13 @@ using UnityEngine.InputSystem;
 using VContainer.Unity;
 namespace Game.Input
 {
-    public sealed class WeaponInput : IInitializable, ITickable, IDisposable
+    public interface IWeaponInput
+    {
+        public bool IsShootButtonPressed { get; }
+        public bool IsAimButtonPressed { get; }
+        public bool IsReloadButtonPressed { get; }
+    }
+    public sealed class WeaponInput : IWeaponInput, IInitializable, ITickable, IDisposable
     {
         private InputAction _shootAction;
         private InputAction _aimAction;
