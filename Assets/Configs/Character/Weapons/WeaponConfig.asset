@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1418a72690349abb585e24c6afce6ed, type: 3}
+  m_Name: WeaponConfig
+  m_EditorClassIdentifier: 
+  WeaponIcon: {fileID: 0}
+  RichTextAmmo: 
+  TotalAmmo: 120
+  MagazineCapacity: 30
+  Damage: 30
+  Range: 100
+  FireRate: 3
+  ImpactForce: 50
+  MuzzleFlashEffect: {fileID: 0}
+  ShellEjectionEffect: {fileID: 0}
+  BloodEffect: {fileID: 0}
+  SurfaceImpactEffect: {fileID: 0}
+  BulletHoleDecal: {fileID: 0}
+  WeaponAnimations:
+    IdleAnimation:
+      _FadeDuration: 0.1
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 91249233e4a8d1e4f8ae1d047fa4c0ba, type: 2}
+      _NormalizedStartTime: NaN
+    ShowAnimation:
+      _FadeDuration: 0
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 3c720710fd7c85c49975e88efd3a2a81, type: 2}
+      _NormalizedStartTime: 0
+    HideAnimation:
+      _FadeDuration: 0
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: d70c600e419dc414db59730d25f8cb68, type: 2}
+      _NormalizedStartTime: 0
+    MeleeAttackAnimation:
+      _FadeDuration: 0.09333339
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 282319f4b05341d44a91f49fb7e12fff, type: 2}
+      _NormalizedStartTime: NaN
+    ShootAnimation:
+      _FadeDuration: 0
+      _Speed: 1.5
+      _Events:
+        _NormalizedTimes:
+        - 1
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 46ef18b314acff540adda84a3e95924f, type: 2}
+      _NormalizedStartTime: NaN
+    EmptyClipAnimation:
+      _FadeDuration: 0.0033333336
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 6f9e694ba761da64d9606df25298a641, type: 2}
+      _NormalizedStartTime: NaN
+    ReloadAnimation:
+      _FadeDuration: 0.33133337
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 5f93b8b610237e24c896039177e13d8d, type: 2}
+      _NormalizedStartTime: NaN
+  references:
+    version: 2
+    RefIds: []

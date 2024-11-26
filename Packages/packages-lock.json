@@ -1,11 +1,25 @@
 {
   "dependencies": {
+    "bz-soft.ragdoll-helper": {
+      "version": "file:bz-soft.ragdoll-helper",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.autodesk.fbx": {
       "version": "4.2.1",
       "depth": 2,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
+    },
+    "com.kybernetik.animancer": {
+      "version": "file:com.kybernetik.animancer",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.modules.animation": "1.0.0"
+      }
     },
     "com.unity.2d.animation": {
       "version": "9.1.1",

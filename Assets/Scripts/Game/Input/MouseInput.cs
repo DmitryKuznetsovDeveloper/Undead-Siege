@@ -7,13 +7,13 @@ using VContainer.Unity;
 namespace Game.Input
 {
 
-    public interface IMouseInput
+    public interface ILookInput
     {
         public float2 MouseDelta { get; }
         public float2 MouseScroll { get; }
         public bool IsTriangleButtonPressed { get; }
     }
-    public sealed class MouseInput : IMouseInput, IInitializable, ITickable, IDisposable
+    public sealed class LookInput : ILookInput, IInitializable, ITickable, IDisposable
     {
         private InputAction _lookAction;
         private InputAction _mouseScrollAction;

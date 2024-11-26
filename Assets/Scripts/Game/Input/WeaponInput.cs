@@ -8,15 +8,19 @@ namespace Game.Input
         public bool IsShootButtonPressed { get; }
         public bool IsAimButtonPressed { get; }
         public bool IsReloadButtonPressed { get; }
+        public bool IsMeleeAttackButtonPressed { get; }
     }
     public sealed class WeaponInput : IWeaponInput, IInitializable, ITickable, IDisposable
     {
         private InputAction _shootAction;
         private InputAction _aimAction;
+        private InputAction _meleeAttackAction;
         private InputAction _reloadAction;
         public bool IsShootButtonPressed { get; private set; }
         public bool IsAimButtonPressed { get; private set; }
         public bool IsReloadButtonPressed { get; private set; }
+        
+        public bool IsMeleeAttackButtonPressed { get; private set; }
 
         void IInitializable.Initialize()
         {
@@ -34,6 +38,11 @@ namespace Game.Input
             _reloadAction.AddBinding("<Keyboard>/R");
             _reloadAction.AddBinding("<Gamepad>/buttonWest");
             _reloadAction.Enable();
+            
+            _meleeAttackAction = new InputAction("meleeAttack");
+            _meleeAttackAction.AddBinding("<Mouse>/middleButton");  // Колесико мыши
+            _meleeAttackAction.AddBinding("<Gamepad>/rightStickPress");  // Кнопка R3 (нажимаем на стики)
+            _meleeAttackAction.Enable();
         }
 
         void ITickable.Tick()
@@ -41,6 +50,7 @@ namespace Game.Input
             IsShootButtonPressed = _shootAction.IsPressed();
             IsAimButtonPressed = _aimAction.IsPressed();
             IsReloadButtonPressed = _reloadAction.WasPressedThisFrame();
+            IsMeleeAttackButtonPressed = _meleeAttackAction.WasPressedThisFrame();
         }
 
         void IDisposable.Dispose()
@@ -48,6 +58,7 @@ namespace Game.Input
             _shootAction?.Dispose();
             _aimAction?.Dispose();
             _reloadAction?.Dispose();
+            _meleeAttackAction?.Dispose();
         }
     }
 }
