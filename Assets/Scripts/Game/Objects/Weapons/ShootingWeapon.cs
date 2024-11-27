@@ -5,13 +5,12 @@ using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Data.Character.WeaponsConfigs;
 using Game.Components;
-using Game.Pool;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Game.Objects.Weapons
 {
-    public abstract class ShootingWeapon : MeleeWeapon
+    public  class ShootingWeapon : MeleeWeapon
     {
         public event Action<int,string,int> OnChangeAmmo;
         public bool IsReload => _isReload;
@@ -49,6 +48,7 @@ namespace Game.Objects.Weapons
         private float _nextTimeToFire;
         private bool _isReload;
         private CancellationTokenSource _cancellationTokenSource;
+        
 
         protected virtual void Awake() => InitializeWeapon();
 
@@ -62,9 +62,9 @@ namespace Game.Objects.Weapons
         {
             currentClip = _weaponConfig.MagazineCapacity;
             totalAmmo = _weaponConfig.TotalAmmo;
-            _muzzleFlashPool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.MuzzleFlashEffect, _weaponConfig.MagazineCapacity / 2, _muzzleFlashContainer);
-            _bloodEffectPool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.BloodEffect, _weaponConfig.MagazineCapacity / 2, _bloodContainer);
-            _impactEffectPool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.SurfaceImpactEffect, _weaponConfig.MagazineCapacity / 2, _impactContainer);
+            _muzzleFlashPool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.MuzzleFlashEffect, _weaponConfig.MagazineCapacity, _muzzleFlashContainer);
+            _bloodEffectPool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.BloodEffect, _weaponConfig.MagazineCapacity, _bloodContainer);
+            _impactEffectPool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.SurfaceImpactEffect, _weaponConfig.MagazineCapacity, _impactContainer);
             _shellEffectPool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.ShellEjectionEffect, _weaponConfig.MagazineCapacity / 2, _shellContainer);
             _holePool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.BulletHoleDecal, _weaponConfig.MagazineCapacity, _holeContainer);
         }
@@ -122,8 +122,22 @@ namespace Game.Objects.Weapons
             
             PlayEffectParent(_shellEffectPool, _shellContainer);
         }
-        
-        protected abstract UniTask RechargeProcess();
+
+        protected async virtual UniTask RechargeProcess()
+        {
+            int ammoNeeded = _weaponConfig.MagazineCapacity - currentClip;
+            if (totalAmmo >= ammoNeeded)
+            {
+                totalAmmo -= ammoNeeded;
+                currentClip = _weaponConfig.MagazineCapacity;
+            }
+            else
+            {
+                currentClip += totalAmmo;
+                totalAmmo = 0;
+            }
+            await UniTask.CompletedTask;
+        }
         
         protected virtual void HandleHit(RaycastHit hit)
         {

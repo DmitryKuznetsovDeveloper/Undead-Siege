@@ -28,12 +28,8 @@ namespace Game.Controllers
         {
             // Движение и прыжок
             _movementHandler.MoveCharacter(_moveInput.MoveDirection, _moveInput.IsRunButtonPressed, _jumpInput.IsJumpButtonPressed);
-            
-            // Определение активного устройства ввода
-            _isGamepadActive = Mouse.current.delta.ReadValue() == Vector2.zero;
-
             // Управление взглядом с учётом активного устройства
-            _lookHandler.LookAround(_lookInput.MouseDelta, _isGamepadActive);
+            _lookHandler.LookAround(_lookInput.LookDelta, _lookInput.IsGamepadInput);
         }
     }
 }

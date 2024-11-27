@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MouseSensitivityX: 80
   MouseSensitivityY: 80
-  GamepadSensitivityX: 10
-  GamepadSensitivityY: 10
+  GamepadSensitivityX: 400
+  GamepadSensitivityY: 400
   MaxVerticalAngle: 75
   MinVerticalAngle: -75

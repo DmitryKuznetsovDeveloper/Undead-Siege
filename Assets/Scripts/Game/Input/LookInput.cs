@@ -9,9 +9,10 @@ namespace Game.Input
 
     public interface ILookInput
     {
-        public float2 MouseDelta { get; }
+        public float2 LookDelta { get; }
         public float2 MouseScroll { get; }
         public bool IsTriangleButtonPressed { get; }
+        public bool IsGamepadInput { get; }
     }
     public sealed class LookInput : ILookInput, IInitializable, ITickable, IDisposable
     {
@@ -19,9 +20,11 @@ namespace Game.Input
         private InputAction _mouseScrollAction;
         private InputAction _triangleButtonAction;
 
-        public float2 MouseDelta { get; private set; }
+        public float2 LookDelta { get; private set; }
         public float2 MouseScroll { get; private set; }
         public bool IsTriangleButtonPressed { get; private set; }
+
+        public bool IsGamepadInput { get; private set; }
 
         public void Initialize()
         {
@@ -29,9 +32,9 @@ namespace Game.Input
             _lookAction.AddBinding("<Mouse>/delta");
             _lookAction.AddBinding("<Gamepad>/rightStick");
 
-            _lookAction.started += context => MouseDelta = context.ReadValue<Vector2>();
-            _lookAction.performed += context => MouseDelta = context.ReadValue<Vector2>();
-            _lookAction.canceled += context => MouseDelta = context.ReadValue<Vector2>();
+            _lookAction.started += context => LookDelta = context.ReadValue<Vector2>();
+            _lookAction.performed += context => LookDelta = context.ReadValue<Vector2>();
+            _lookAction.canceled += context => LookDelta = context.ReadValue<Vector2>();
             _lookAction.Enable();
 
 
@@ -45,7 +48,11 @@ namespace Game.Input
             _triangleButtonAction.Enable();
         }
 
-        void ITickable.Tick() => IsTriangleButtonPressed = _triangleButtonAction.WasPerformedThisFrame();
+        void ITickable.Tick()
+        {
+            IsTriangleButtonPressed = _triangleButtonAction.WasPerformedThisFrame();
+            IsGamepadInput = _lookAction.activeControl?.device is Gamepad;
+        }
 
         public void Dispose()
         {

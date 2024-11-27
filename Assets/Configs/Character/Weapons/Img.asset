@@ -14,14 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponIcon: {fileID: 0}
   RichTextAmmo: 
-  TotalAmmo: 120
-  MagazineCapacity: 30
+  TotalAmmo: 270
+  MagazineCapacity: 90
   Damage: 15
   Range: 100
   FireRate: 20
   ImpactForce: 50
-  MuzzleFlashEffect: {fileID: 0}
-  ShellEjectionEffect: {fileID: 0}
-  BloodEffect: {fileID: 0}
-  SurfaceImpactEffect: {fileID: 0}
-  BulletHoleDecal: {fileID: 0}
+  MuzzleFlashEffect: {fileID: 7748715698122423067, guid: 7bc7649a8e5ed4f45b8b7180f68874df,
+    type: 3}
+  ShellEjectionEffect: {fileID: 198873560106806816, guid: eba6fd8459960c34cbad0fccb67e6d48,
+    type: 3}
+  BloodEffect: {fileID: 19845262, guid: fdac75e990da47649b31f10049c400b0, type: 3}
+  SurfaceImpactEffect: {fileID: 19800002, guid: 957385c45b877e645a128e11a3efb2f9,
+    type: 3}
+  BulletHoleDecal: {fileID: 3120322374136661422, guid: a216769ed3c47ea489e95669def72466,
+    type: 3}
