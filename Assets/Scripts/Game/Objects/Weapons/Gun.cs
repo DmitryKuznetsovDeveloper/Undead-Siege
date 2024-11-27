@@ -2,7 +2,7 @@
 
 namespace Game.Objects.Weapons
 {
-    public class Gun : ShootingWeapon
+    public sealed class Gun : ShootingWeapon
     {
         protected override async UniTask RechargeProcess()
         {

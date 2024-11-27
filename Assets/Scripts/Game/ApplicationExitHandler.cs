@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 namespace Game
 {
     public interface IApplicationExitHandler
@@ -20,8 +21,9 @@ namespace Game
         {
 #if UNITY_EDITOR
             return true;
-#endif
+#else
             return false;
+#endif
         }
 
         private void StopEditorPlayMode()

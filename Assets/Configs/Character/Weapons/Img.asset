@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1418a72690349abb585e24c6afce6ed, type: 3}
+  m_Name: Img
+  m_EditorClassIdentifier: 
+  WeaponIcon: {fileID: 0}
+  RichTextAmmo: 
+  TotalAmmo: 120
+  MagazineCapacity: 30
+  Damage: 15
+  Range: 100
+  FireRate: 20
+  ImpactForce: 50
+  MuzzleFlashEffect: {fileID: 0}
+  ShellEjectionEffect: {fileID: 0}
+  BloodEffect: {fileID: 0}
+  SurfaceImpactEffect: {fileID: 0}
+  BulletHoleDecal: {fileID: 0}

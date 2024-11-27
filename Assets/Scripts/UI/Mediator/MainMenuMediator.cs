@@ -1,11 +1,10 @@
 ﻿using System;
 using Game;
-using UnityEngine;
 using VContainer.Unity;
 
 namespace UI.Mediator
 {
-    public class MainMenuMediator : IStartable, IDisposable
+    public sealed class MainMenuMediator : IStartable, IDisposable
     {
         private readonly ISceneLoader _sceneLoader;
         private readonly IApplicationExitHandler _applicationExit;

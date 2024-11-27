@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Game.Objects.Weapons
@@ -7,6 +8,7 @@ namespace Game.Objects.Weapons
     {
         public event Action<ShootingWeapon> OnChangeWeapon;
         public ShootingWeapon CurrentShootingWeapon => _currentShootingWeapon;
+
         private int _currentWeaponIndex;
         private ShootingWeapon _currentShootingWeapon;
         private ShootingWeapon[] _weapons;
@@ -24,16 +26,18 @@ namespace Game.Objects.Weapons
             _currentShootingWeapon = _weapons[_currentWeaponIndex];
 
             // Делаем активным только первое оружие, все остальные скрываем
-            for (var i = 0; i < _weapons.Length; i++)
-                _weapons[i].gameObject.SetActive(i == _currentWeaponIndex);
+            foreach (var weapon in _weapons)
+                weapon.gameObject.SetActive(false);
+
+            _currentShootingWeapon.gameObject.SetActive(true);
         }
 
         public void Next()
         {
             if (!_currentShootingWeapon.IsReload)
             {
-                _currentWeaponIndex = (_currentWeaponIndex + 1) % _weapons.Length; // Обрабатываем переполнение
-                SelectWeapon();
+                _currentWeaponIndex = (_currentWeaponIndex + 1) % _weapons.Length;
+                _ = SelectWeapon();
             }
         }
 
@@ -41,23 +45,23 @@ namespace Game.Objects.Weapons
         {
             if (!_currentShootingWeapon.IsReload)
             {
-                _currentWeaponIndex = (_currentWeaponIndex - 1 + _weapons.Length) % _weapons.Length; // Обрабатываем отрицательные значения индекса
-                SelectWeapon();
+                _currentWeaponIndex = (_currentWeaponIndex - 1 + _weapons.Length) % _weapons.Length;
+                _ = SelectWeapon();
             }
         }
 
-        public void GetWeapon() => SelectWeapon();
+        public UniTask GetWeaponAsync() => SelectWeapon();
 
-        private async void SelectWeapon()
+        private async UniTask SelectWeapon()
         {
             if (_currentShootingWeapon != null)
             {
                 await _currentShootingWeapon.HideWeapon();
-                _currentShootingWeapon.gameObject.SetActive(false);
+                _currentShootingWeapon.Deactivate();
             }
 
             _currentShootingWeapon = _weapons[_currentWeaponIndex];
-            _currentShootingWeapon.gameObject.SetActive(true);
+            _currentShootingWeapon.Activate();
             OnChangeWeapon?.Invoke(_currentShootingWeapon);
             await _currentShootingWeapon.ShowWeapon();
         }

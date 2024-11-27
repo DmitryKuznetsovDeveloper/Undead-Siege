@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading;
 using Animancer;
-using Animations.Common;
 using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Data.Character.WeaponsConfigs;
 using Game.Components;
+using Game.Pool;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using VContainer;
 
 namespace Game.Objects.Weapons
 {
@@ -21,6 +20,11 @@ namespace Game.Objects.Weapons
         public CinemachineVirtualCamera BaseCamera => _baseCamera;
         
         [SerializeField] private Transform _barrelTransform;
+        [SerializeField] protected Transform _muzzleFlashContainer;
+        [SerializeField] protected Transform _bloodContainer;
+        [SerializeField] protected Transform _impactContainer;
+        [SerializeField] protected Transform _shellContainer;
+        [SerializeField] protected Transform _holeContainer;
         [SerializeField,InlineEditor] protected ShootingWeaponConfig _weaponConfig;
         [SerializeField] protected CinemachineVirtualCamera _baseCamera;
         [SerializeField] protected LayerMask _characterLayerMask;
@@ -32,6 +36,12 @@ namespace Game.Objects.Weapons
         [SerializeField] private ClipTransition ShootAnim;
         [SerializeField] private ClipTransition EmptyClipAnim;
         [SerializeField] private ClipTransition ReloadAnim;
+        
+        private Pool.ObjectPool<ParticleSystem> _muzzleFlashPool; // Пул для вспышек выстрела
+        private Pool.ObjectPool<ParticleSystem> _bloodEffectPool; // Пул для эффектов крови
+        private Pool.ObjectPool<ParticleSystem> _impactEffectPool; // Пул для эффектов попаданий
+        private Pool.ObjectPool<ParticleSystem> _shellEffectPool; // Пул для эффектов попаданий
+        private Pool.ObjectPool<ParticleSystem> _holePool; // Пул для эффектов попаданий// Камера игрока
 
         protected int currentClip;
         protected int totalAmmo;
@@ -52,8 +62,15 @@ namespace Game.Objects.Weapons
         {
             currentClip = _weaponConfig.MagazineCapacity;
             totalAmmo = _weaponConfig.TotalAmmo;
+            _muzzleFlashPool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.MuzzleFlashEffect, _weaponConfig.MagazineCapacity / 2, _muzzleFlashContainer);
+            _bloodEffectPool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.BloodEffect, _weaponConfig.MagazineCapacity / 2, _bloodContainer);
+            _impactEffectPool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.SurfaceImpactEffect, _weaponConfig.MagazineCapacity / 2, _impactContainer);
+            _shellEffectPool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.ShellEjectionEffect, _weaponConfig.MagazineCapacity / 2, _shellContainer);
+            _holePool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.BulletHoleDecal, _weaponConfig.MagazineCapacity, _holeContainer);
         }
         
+        public void Activate() => gameObject.SetActive(true);
+        public void Deactivate() => gameObject.SetActive(false);
         public async UniTask ShowWeapon() =>  await _animancer.Play(ShowAnim).ToUniTask(cancellationToken: _cancellationTokenSource.Token);
         
         public async UniTask HideWeapon() => await _animancer.Play(HideAnim).ToUniTask(cancellationToken: _cancellationTokenSource.Token);
@@ -68,8 +85,6 @@ namespace Game.Objects.Weapons
         {
             if (Time.time >= _nextTimeToFire && !_isReload && currentClip > 0)
             {
-                var shootState = _animancer.Play(ShootAnim);
-                shootState.Events(this).OnEnd = () => _animancer.Play(IdleAnim);
                 ShootProcess();
                 _nextTimeToFire = Time.time + 1f / _weaponConfig.FireRate; // Обновляем время следующего выстрела
             }
@@ -92,7 +107,9 @@ namespace Game.Objects.Weapons
         
         protected virtual void ShootProcess()
         {
-            //  _weaponBaseAnimations.ShowShoot(_animator);
+            var shootState = _animancer.Play(ShootAnim);
+            PlayEffectParent(_muzzleFlashPool, _muzzleFlashContainer);
+            shootState.Events(this).OnEnd = () => _animancer.Play(IdleAnim);
             currentClip--;
             Debug.Log(currentClip);
             OnChangeAmmo?.Invoke(currentClip,WeaponConfig.RichTextAmmo,totalAmmo);
@@ -103,19 +120,71 @@ namespace Game.Objects.Weapons
             if (Physics.Raycast(rayOrigin, rayDirection,out var hit, _weaponConfig.Range, ~_characterLayerMask))
                 HandleHit(hit);
             
+            PlayEffectParent(_shellEffectPool, _shellContainer);
         }
         
         protected abstract UniTask RechargeProcess();
         
         protected virtual void HandleHit(RaycastHit hit)
         {
-
             if (hit.transform.root.TryGetComponent(out HealthComponent healthComponent))
+            {
                 healthComponent.TakeDamage(_weaponConfig.Damage);
+                PlayEffectHit(_bloodEffectPool, hit);
+            }
+            else
+            {
+                PlayEffectHit(_impactEffectPool, hit);
+                PlayEffectAndAssignParent(_holePool, hit);
+            }
 
             if (hit.transform.TryGetComponent(out Rigidbody rb))
+            {
                 rb.AddForce(-hit.normal * _weaponConfig.ImpactForce);
+            }
         }
+        
+        private void PlayEffectHit(Pool.ObjectPool<ParticleSystem> pool, RaycastHit hit)
+        {
+            var poolObject = pool.GetObject();
+            var poolObjectTransform = poolObject.transform;
+            poolObjectTransform.position = hit.point;
+            poolObjectTransform.rotation = Quaternion.LookRotation(hit.normal);
+            poolObject.Play(true);
+            ReturnEffectToPoolAfterTime(pool, poolObject).Forget();
+        }
+
+        private void PlayEffectParent(Pool.ObjectPool<ParticleSystem> pool, Transform parent)
+        {
+            var poolObject = pool.GetObject();
+            var poolObjectTransform = poolObject.transform;
+            poolObjectTransform.position = parent.position;
+            poolObjectTransform.rotation = parent.rotation;
+            poolObject.Play(true);
+            ReturnEffectToPoolAfterTime(pool, poolObject).Forget();
+        }
+
+        private void PlayEffectAndAssignParent(Pool.ObjectPool<ParticleSystem> pool, RaycastHit hit)
+        {
+            var poolObject = pool.GetObject();
+            var poolObjectTransform = poolObject.transform;
+            poolObjectTransform.SetParent(hit.transform);
+            poolObjectTransform.position = hit.point;
+            poolObjectTransform.rotation = Quaternion.LookRotation(hit.normal);
+            poolObject.Play(true);
+            ReturnEffectToPoolAfterTime(pool, poolObject).Forget();
+        }
+
+        private async UniTask ReturnEffectToPoolAfterTime(Pool.ObjectPool<ParticleSystem> pool, ParticleSystem effect)
+        {
+            // Ожидаем, пока эффект не завершит воспроизведение
+            while (effect.isPlaying)
+                await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token); // Ждем следующий кадр
+
+            effect.transform.SetParent(pool.Parent);
+            pool.ReturnObject(effect);
+        }
+        
         private void OnDrawGizmos()
         {
             // Если у вас есть ссылка на ствол оружия

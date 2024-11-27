@@ -23,7 +23,7 @@ namespace Game.Controllers
         void IInitializable.Initialize()
         {
             _weaponSelector.Init(_weapons);
-            _weaponSelector.GetWeapon();
+            _weaponSelector.GetWeaponAsync();
         }
         public async void Tick()
         {

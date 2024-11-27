@@ -210,7 +210,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.50899994, z: 0.02000001}
+  m_LocalPosition: {x: -0.038, y: 1.6199999, z: -0.19999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -643,10 +643,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4302585259212635487, guid: 85a4c8f00eeb1704ebe78bf61fccfbbc,
+    - target: {fileID: 6765304361458394340, guid: 85a4c8f00eeb1704ebe78bf61fccfbbc,
         type: 3}
-      propertyPath: _weapons.Array.size
-      value: 1
+      propertyPath: m_LocalPosition.y
+      value: 0.1097
       objectReference: {fileID: 0}
     - target: {fileID: 8386958653295014512, guid: 85a4c8f00eeb1704ebe78bf61fccfbbc,
         type: 3}

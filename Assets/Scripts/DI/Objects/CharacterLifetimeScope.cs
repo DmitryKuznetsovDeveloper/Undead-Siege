@@ -1,5 +1,4 @@
 using System;
-using Animations.Common;
 using Data.Character;
 using Game.Components;
 using Game.Controllers;

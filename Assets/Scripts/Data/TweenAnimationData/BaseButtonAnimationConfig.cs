@@ -1,6 +1,6 @@
 ﻿using System;
+using Game.Helper;
 using UnityEngine;
-using Utils;
 namespace Data.TweenAnimationData
 {
     [CreateAssetMenu(fileName = "BaseButtonAnimation", menuName = "Configs/Animations/BaseButtonAnimation", order = 0)]

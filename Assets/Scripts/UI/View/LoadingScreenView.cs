@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TweenParams = Utils.TweenParams;
+using TweenParams = Game.Helper.TweenParams;
 namespace UI.View
 {
     public class LoadingScreenView : MonoBehaviour , ILoadingScreenView

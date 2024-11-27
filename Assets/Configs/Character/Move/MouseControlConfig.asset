@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d186d6f10d425f84dd82628f7e78de, type: 3}
   m_Name: MouseControlConfig
   m_EditorClassIdentifier: 
-  MouseSensitivityX: 100
-  MouseSensitivityY: 100
-  GamepadSensitivityX: 600
-  GamepadSensitivityY: 600
+  MouseSensitivityX: 80
+  MouseSensitivityY: 80
+  GamepadSensitivityX: 10
+  GamepadSensitivityY: 10
   MaxVerticalAngle: 75
   MinVerticalAngle: -75
