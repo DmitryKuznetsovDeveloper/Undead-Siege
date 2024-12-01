@@ -82,5 +82,12 @@ namespace Data.Character.WeaponsConfigs
         [AssetsOnly]
         [InlineEditor(InlineEditorObjectFieldModes.Boxed)]
         public ParticleSystem BulletHoleDecal; // Декаль от пули
+        
+        public ClipTransition IdleAnim;
+        public ClipTransition ShowAnim;
+        public ClipTransition HideAnim;
+        public ClipTransition ShootAnim;
+        public ClipTransition EmptyClipAnim;
+        public ClipTransition ReloadAnim;
     }
 }

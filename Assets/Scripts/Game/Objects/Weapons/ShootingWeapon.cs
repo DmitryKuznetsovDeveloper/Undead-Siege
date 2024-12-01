@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Game.Objects.Weapons
 {
-    public  class ShootingWeapon : MeleeWeapon
+    public class ShootingWeapon: MonoBehaviour
     {
         public event Action<int,string,int> OnChangeAmmo;
         public bool IsReload => _isReload;
@@ -18,23 +18,16 @@ namespace Game.Objects.Weapons
         public ShootingWeaponConfig WeaponConfig => _weaponConfig;
         public CinemachineVirtualCamera BaseCamera => _baseCamera;
         
+        [SerializeField,InlineEditor] protected ShootingWeaponConfig _weaponConfig;
         [SerializeField] private Transform _barrelTransform;
         [SerializeField] protected Transform _muzzleFlashContainer;
         [SerializeField] protected Transform _bloodContainer;
         [SerializeField] protected Transform _impactContainer;
         [SerializeField] protected Transform _shellContainer;
         [SerializeField] protected Transform _holeContainer;
-        [SerializeField,InlineEditor] protected ShootingWeaponConfig _weaponConfig;
         [SerializeField] protected CinemachineVirtualCamera _baseCamera;
-        [SerializeField] protected LayerMask _characterLayerMask;
         [SerializeField] protected AnimancerComponent _animancer;
-        [SerializeField] private ClipTransition IdleAnim;
-        [SerializeField] private ClipTransition ShowAnim;
-        [SerializeField] private ClipTransition HideAnim;
-        [SerializeField] private ClipTransition MeleeAttackAnim; 
-        [SerializeField] private ClipTransition ShootAnim;
-        [SerializeField] private ClipTransition EmptyClipAnim;
-        [SerializeField] private ClipTransition ReloadAnim;
+        [SerializeField] protected LayerMask _characterLayerMask;
         
         private Pool.ObjectPool<ParticleSystem> _muzzleFlashPool; // Пул для вспышек выстрела
         private Pool.ObjectPool<ParticleSystem> _bloodEffectPool; // Пул для эффектов крови
@@ -68,18 +61,11 @@ namespace Game.Objects.Weapons
             _shellEffectPool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.ShellEjectionEffect, _weaponConfig.MagazineCapacity / 2, _shellContainer);
             _holePool = new Pool.ObjectPool<ParticleSystem>(_weaponConfig.BulletHoleDecal, _weaponConfig.MagazineCapacity, _holeContainer);
         }
-        
         public void Activate() => gameObject.SetActive(true);
         public void Deactivate() => gameObject.SetActive(false);
-        public async UniTask ShowWeapon() =>  await _animancer.Play(ShowAnim).ToUniTask(cancellationToken: _cancellationTokenSource.Token);
+        public async UniTask ShowWeapon() =>  await _animancer.Play(_weaponConfig.ShowAnim).ToUniTask(cancellationToken: _cancellationTokenSource.Token);
         
-        public async UniTask HideWeapon() => await _animancer.Play(HideAnim).ToUniTask(cancellationToken: _cancellationTokenSource.Token);
-
-        public void MeleeAttackAnimation()
-        {
-            var shootState = _animancer.Play(MeleeAttackAnim);
-            shootState.Events(this).OnEnd = () => _animancer.Play(IdleAnim);
-        }
+        public async UniTask HideWeapon() => await _animancer.Play(_weaponConfig.HideAnim).ToUniTask(cancellationToken: _cancellationTokenSource.Token);
 
         public void Shoot()
         {
@@ -90,7 +76,7 @@ namespace Game.Objects.Weapons
             }
             
             else if (currentClip <= 0)
-                _animancer.Play(EmptyClipAnim);
+                _animancer.Play(_weaponConfig.EmptyClipAnim);
         }
 
         public async UniTask Recharge()
@@ -100,16 +86,16 @@ namespace Game.Objects.Weapons
 
             _isReload = true;
             await RechargeProcess();
-            await _animancer.Play(ReloadAnim).ToUniTask(cancellationToken: _cancellationTokenSource.Token);
+            await _animancer.Play(_weaponConfig.ReloadAnim).ToUniTask(cancellationToken: _cancellationTokenSource.Token);
             OnChangeAmmo?.Invoke(currentClip,WeaponConfig.RichTextAmmo,totalAmmo);
             _isReload = false;
         }
         
         protected virtual void ShootProcess()
         {
-            var shootState = _animancer.Play(ShootAnim);
+            var shootState = _animancer.Play(_weaponConfig.ShootAnim);
             PlayEffectParent(_muzzleFlashPool, _muzzleFlashContainer);
-            shootState.Events(this).OnEnd = () => _animancer.Play(IdleAnim);
+            shootState.Events(this).OnEnd = () => _animancer.Play(_weaponConfig.IdleAnim);
             currentClip--;
             Debug.Log(currentClip);
             OnChangeAmmo?.Invoke(currentClip,WeaponConfig.RichTextAmmo,totalAmmo);
@@ -141,9 +127,12 @@ namespace Game.Objects.Weapons
         
         protected virtual void HandleHit(RaycastHit hit)
         {
-            if (hit.transform.root.TryGetComponent(out HealthComponent healthComponent))
+            var healthComponent = hit.transform.GetComponentInChildren<HealthComponent>(true) ??
+                              hit.transform.GetComponentInParent<HealthComponent>();
+            if (healthComponent != null)
             {
                 healthComponent.TakeDamage(_weaponConfig.Damage);
+                Debug.Log(hit.transform.name + " hit====================================================");
                 PlayEffectHit(_bloodEffectPool, hit);
             }
             else

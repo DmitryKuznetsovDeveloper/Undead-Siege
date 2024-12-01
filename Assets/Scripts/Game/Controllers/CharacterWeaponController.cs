@@ -33,8 +33,6 @@ namespace Game.Controllers
 
             Shoot();
 
-            MeleeAttack();
-
             ChangeAimCamera();
         }
         private void ChangeAimCamera() => _weaponSelector.CurrentShootingWeapon.BaseCamera.gameObject.SetActive(!_weaponInput.IsAimButtonPressed);
@@ -52,11 +50,6 @@ namespace Game.Controllers
                 _weaponSelector.CurrentShootingWeapon.Shoot();
         }
         
-        private void MeleeAttack()
-        {
-            if (_weaponInput.IsMeleeAttackButtonPressed)
-                _weaponSelector.CurrentShootingWeapon.MeleeAttackAnimation();
-        }
         private async UniTask AsyncRecharge()
         {
             if (_weaponInput.IsReloadButtonPressed && _weaponSelector.CurrentShootingWeapon)

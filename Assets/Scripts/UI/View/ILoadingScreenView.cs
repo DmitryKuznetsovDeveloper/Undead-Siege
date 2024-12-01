@@ -3,7 +3,7 @@
     public interface ILoadingScreenView : IPopupView
     {
         void SetProgress(float loadOperationProgress);
-        void SetLabel(float loadOperationProgress);
+        void SetLabel(float percent);
     }
     public interface IPopupView
     {

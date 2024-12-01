@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Data.Character;
 using Game.Components;
 using Game.Controllers;
@@ -15,7 +16,6 @@ namespace DI.Objects
         [SerializeField] private Transform _bodyTransform;
         [SerializeField] private CharacterMovementConfig _characterMovementConfig;
         [SerializeField] private MouseControlConfig _mouseControlConfig;
-        [SerializeField] private ShootingWeapon[] _weapons;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -31,13 +31,12 @@ namespace DI.Objects
             builder.RegisterInstance(_mouseControlConfig);
 
             //Components
-            builder.RegisterComponentInHierarchy<CharacterController>();
             builder.Register<MovementHandler>(Lifetime.Singleton).WithParameter(_bodyTransform).AsSelf();
             builder.Register<LookHandler>(Lifetime.Singleton).WithParameter(gameObject.transform).AsSelf();
 
             //Weapon
             builder.Register<WeaponSelector>(Lifetime.Singleton);
-            builder.RegisterInstance(_weapons);
+            builder.RegisterInstance(GetComponentsInChildren<ShootingWeapon>(true).ToArray());
             
             //Controllers
             builder.Register<CharacterMovementController>(Lifetime.Singleton).As<ITickable>();

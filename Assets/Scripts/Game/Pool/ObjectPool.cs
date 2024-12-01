@@ -40,12 +40,27 @@ namespace Game.Pool
                 return newObj;
             }
         }
+        
+        public bool TryGetObject(out T obj)
+        {
+            if (_objects.Count > 0)
+            {
+                obj = _objects.Dequeue();
+                obj.gameObject.SetActive(true);
+                return true;
+            }
+
+            obj = null;
+            return false;
+        }
+
 
         // Метод для возврата объекта обратно в пул
         public void ReturnObject(T obj)
         {
             obj.gameObject.SetActive(false);
             _objects.Enqueue(obj);
+            Debug.Log($"ObjectPool: Объект {obj.name} возвращён в пул.");
         }
 
         // Метод для создания нового объекта

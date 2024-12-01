@@ -8,6 +8,7 @@ namespace Game.Components
         public event Action<int> OnChangeHealth;
         public event Action<int> OnTakeDamage;
         public event Action OnDeath;
+        public event Action OnResetDefault;
         public int MaxHitPoints => _maxHitPoints;
         public int CurrentHealthPoints => _health;
         
@@ -32,6 +33,11 @@ namespace Game.Components
         {
             _health = healthPoints > 0 ? Mathf.Min(_health + healthPoints, _maxHitPoints) : _health;
             OnChangeHealth?.Invoke(healthPoints);   
+        }
+        public void ResetDefaultHealth()
+        {
+            OnResetDefault?.Invoke();
+            _health = _maxHitPoints;
         }
     }
 }

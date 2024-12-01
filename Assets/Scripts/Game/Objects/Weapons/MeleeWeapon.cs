@@ -10,7 +10,7 @@ namespace Game.Objects.Weapons
         [SerializeField] private Transform[] _meleePoints;
         [SerializeField, InlineEditor] private MeleeWeaponConfig _config;
         private readonly Collider[] _buffer = new Collider[32];
-        
+
         [Button]
         public void MeleeAttack() => AttackProcess();
 
@@ -19,7 +19,7 @@ namespace Game.Objects.Weapons
             Debug.Log("Weapon Attack");
             foreach (var meleePoint in _meleePoints)
             {
-                Vector3 center = meleePoint.position; 
+                Vector3 center = meleePoint.position;
                 int size = Physics.OverlapSphereNonAlloc(center, _config.meleeRadius, _buffer, _config.layerMask);
 
                 if (_config.mode == MeleeWeaponConfig.Mode.First)
@@ -55,17 +55,14 @@ namespace Game.Objects.Weapons
             }
         }
 
-        private bool IsLayerMatch(int layer) => (_config.layerMask.value & (1 << layer)) != 0;
+        private bool IsLayerMatch(int layer) => (_config.layerMask.value&(1 << layer)) != 0;
 
 #if UNITY_EDITOR
-        private void OnDrawGizmos()
+        public void OnDrawGizmos()
         {
-            if (_meleePoints != null)
-            {
-                Gizmos.color = Color.red;
-                foreach (var meleePoint in _meleePoints)
-                    Gizmos.DrawWireSphere(meleePoint.position, _config.meleeRadius); // Рисуем Gizmos для всех точек
-            }
+            Gizmos.color = Color.red;
+            foreach (var meleePoint in _meleePoints)
+                Gizmos.DrawWireSphere(meleePoint.position, _config.meleeRadius); // Рисуем Gizmos для всех точек
         }
 #endif
     }

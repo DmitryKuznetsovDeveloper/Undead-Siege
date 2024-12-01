@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b6d5ec95b714640aa0fef3682513d7d, type: 3}
+  m_Name: Zombie_1
+  m_EditorClassIdentifier: 
+  ArrivalDistance: 0.5
+  PatrolRadius: 20
+  WaitTimeBeforeNextPoint: 4
+  DetectionRange: 20
+  AttackRange: 1.8
+  AttackCooldown: 0.2
+  IdleAnim:
+    _FadeDuration: 0
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 63680b88584f7bc4aa218aec902a8a5c, type: 2}
+    _NormalizedStartTime: NaN
+  WalkAnim:
+    _FadeDuration: 0.2866667
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: dc9cfacbc1b548e45a999061111c5702, type: 2}
+    _NormalizedStartTime: NaN
+  RunAnim:
+    _FadeDuration: 0.17333336
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: c59bf15f7fafb7148aa9b627670c8eeb, type: 2}
+    _NormalizedStartTime: NaN
+  HitAnim:
+    _FadeDuration: 0.21666668
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: d90832d0cf49ea647ad51b5a5fb8321e, type: 2}
+    _NormalizedStartTime: NaN
+  ScreamAnim:
+    _FadeDuration: 0.28000003
+    _Speed: 1
+    _Events:
+      _NormalizedTimes:
+      - 1
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 60885a04c0518084bb69512c52a5bcea, type: 2}
+    _NormalizedStartTime: NaN
+  MeleeAttacksAnim:
+  - _FadeDuration: 0.26333335
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 8605d84ffdfd8a04b91f208f4c6a4968, type: 2}
+    _NormalizedStartTime: NaN
+  - _FadeDuration: 0.2266667
+    _Speed: 1
+    _Events:
+      _NormalizedTimes:
+      - 1
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: a9b52672277a10e4d9152aea13793ed8, type: 2}
+    _NormalizedStartTime: NaN
+  - _FadeDuration: 0.33666667
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 517780c9b1cb0b34d82e768b208b75d7, type: 2}
+    _NormalizedStartTime: NaN
+  MeleeAttackEventTimes:
+  - 1
+  - 0.25
+  - 0.22
+  references:
+    version: 2
+    RefIds: []

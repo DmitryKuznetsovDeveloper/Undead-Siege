@@ -24,8 +24,70 @@ MonoBehaviour:
     type: 3}
   ShellEjectionEffect: {fileID: 198873560106806816, guid: eba6fd8459960c34cbad0fccb67e6d48,
     type: 3}
-  BloodEffect: {fileID: 19845262, guid: fdac75e990da47649b31f10049c400b0, type: 3}
+  BloodEffect: {fileID: 2097740772860773230, guid: fdac75e990da47649b31f10049c400b0,
+    type: 3}
   SurfaceImpactEffect: {fileID: 19800002, guid: 957385c45b877e645a128e11a3efb2f9,
     type: 3}
   BulletHoleDecal: {fileID: 3120322374136661422, guid: a216769ed3c47ea489e95669def72466,
     type: 3}
+  IdleAnim:
+    _FadeDuration: 0
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 91249233e4a8d1e4f8ae1d047fa4c0ba, type: 2}
+    _NormalizedStartTime: NaN
+  ShowAnim:
+    _FadeDuration: 0
+    _Speed: 1.5
+    _Events:
+      _NormalizedTimes:
+      - 1
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 3c720710fd7c85c49975e88efd3a2a81, type: 2}
+    _NormalizedStartTime: NaN
+  HideAnim:
+    _FadeDuration: 0
+    _Speed: 1.5
+    _Events:
+      _NormalizedTimes:
+      - 1
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: d70c600e419dc414db59730d25f8cb68, type: 2}
+    _NormalizedStartTime: NaN
+  ShootAnim:
+    _FadeDuration: 0
+    _Speed: 2.5
+    _Events:
+      _NormalizedTimes:
+      - 1
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 46ef18b314acff540adda84a3e95924f, type: 2}
+    _NormalizedStartTime: NaN
+  EmptyClipAnim:
+    _FadeDuration: 0
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 6f9e694ba761da64d9606df25298a641, type: 2}
+    _NormalizedStartTime: NaN
+  ReloadAnim:
+    _FadeDuration: 0.2366667
+    _Speed: 1
+    _Events:
+      _NormalizedTimes:
+      - 1
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 5f93b8b610237e24c896039177e13d8d, type: 2}
+    _NormalizedStartTime: NaN
+  references:
+    version: 2
+    RefIds: []

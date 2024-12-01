@@ -1,4 +1,4 @@
-﻿using Game.Input;
+﻿using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 namespace DI
@@ -7,10 +7,7 @@ namespace DI
     {
         protected override void Configure(IContainerBuilder builder)
         {
-            // Регистрация классов ввода
-
-        
-            // Если у вас есть другие зависимости, добавьте их здесь
+            builder.RegisterComponentInHierarchy<CharacterController>();
         }
     }
 }

@@ -24,8 +24,69 @@ MonoBehaviour:
     type: 3}
   ShellEjectionEffect: {fileID: 198873560106806816, guid: eba6fd8459960c34cbad0fccb67e6d48,
     type: 3}
-  BloodEffect: {fileID: 19845262, guid: fdac75e990da47649b31f10049c400b0, type: 3}
+  BloodEffect: {fileID: 2097740772860773230, guid: fdac75e990da47649b31f10049c400b0,
+    type: 3}
   SurfaceImpactEffect: {fileID: 19800002, guid: 957385c45b877e645a128e11a3efb2f9,
     type: 3}
   BulletHoleDecal: {fileID: 3120322374136661422, guid: a216769ed3c47ea489e95669def72466,
     type: 3}
+  IdleAnim:
+    _FadeDuration: 0
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: fc343a6e9e840ad4695a1ded1655d95d, type: 2}
+    _NormalizedStartTime: NaN
+  ShowAnim:
+    _FadeDuration: 0
+    _Speed: 1.5
+    _Events:
+      _NormalizedTimes:
+      - 1
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 94b4e8780c728cd4ebbf911bfffcea5a, type: 2}
+    _NormalizedStartTime: NaN
+  HideAnim:
+    _FadeDuration: 0
+    _Speed: 1.5
+    _Events:
+      _NormalizedTimes:
+      - 1
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 27dc3c398e2fbcd45bbff282ba10a17d, type: 2}
+    _NormalizedStartTime: NaN
+  ShootAnim:
+    _FadeDuration: 0
+    _Speed: 2.5
+    _Events:
+      _NormalizedTimes:
+      - 1
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 8502a9016b0003a42abc94d1159dff5b, type: 2}
+    _NormalizedStartTime: NaN
+  EmptyClipAnim:
+    _FadeDuration: 0
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: fc343a6e9e840ad4695a1ded1655d95d, type: 2}
+    _NormalizedStartTime: NaN
+  ReloadAnim:
+    _FadeDuration: 0.4333334
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 78f3780d96e0edc468cd3be68bd85f64, type: 2}
+    _NormalizedStartTime: NaN
+  references:
+    version: 2
+    RefIds: []
